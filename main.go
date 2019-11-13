@@ -104,7 +104,13 @@ func groupStudy(router *gin.Engine) {
 	v1 := router.Group("v1")
 	{
 		v1.GET("hello", func(c *gin.Context) {
-			c.String(http.StatusOK, "hello world")
+			c.String(http.StatusOK, " v1 hello ")
+		})
+	}
+	v2 := router.Group("v2")
+	{
+		v2.GET("hello", func(c *gin.Context) {
+			c.String(http.StatusOK, "v2 hello")
 		})
 	}
 }
