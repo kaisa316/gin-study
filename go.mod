@@ -1,4 +1,4 @@
-module gin-study
+module github.com/kaisa316/gin-study
 
 go 1.13
 

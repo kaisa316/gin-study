@@ -1,12 +1,13 @@
 package main
 
 import (
-	"gin-study/modules"
+	// "gin-study/modules"
+	"github.com/gin-gonic/gin"
+	"github.com/kaisa316/gin-study/modules"
 	"log"
 	"net/http"
 	"time"
-
-	"github.com/gin-gonic/gin"
+	"import_test/math"
 )
 
 func main() {
@@ -23,6 +24,7 @@ func main() {
 		c.String(200, "hello world")
 		// fmt.Println("hello world")
 	})
+	math.Add(1,2)
 	groupStudy(router)
 	router.GET("/query", modules.BindQueryParam)
 	router.GET("/query_bind_struct", modules.BindQueryParam)
