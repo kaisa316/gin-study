@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	"gin-study/modules"
 	"log"
 	"net/http"
 	"time"
@@ -11,20 +11,6 @@ import (
 
 func main() {
 	router := gin.Default()
-	router.Use(gin.LoggerWithFormatter(func(param gin.LogFormatterParams) string {
-		// your custom format
-		return fmt.Sprintf("%s - [%s] \"%s %s %s %d %s \"%s\" %s\"\n",
-			param.ClientIP,
-			param.TimeStamp.Format(time.RFC1123),
-			param.Method,
-			param.Path,
-			param.Request.Proto,
-			param.StatusCode,
-			param.Latency,
-			param.Request.UserAgent(),
-			param.ErrorMessage,
-		)
-	}))
 	router.Use(Logger())
 	router.GET("/ping", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
@@ -38,6 +24,10 @@ func main() {
 		// fmt.Println("hello world")
 	})
 	groupStudy(router)
+	router.GET("/query", modules.BindQueryParam)
+	router.GET("/query_bind_struct", modules.BindQueryParam)
+	router.POST("/post_bind_struct", modules.BindPostformParam)
+	router.POST("/post_form", modules.NormalPostformParam)
 
 	router.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 
