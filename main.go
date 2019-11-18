@@ -32,10 +32,19 @@ func main() {
 		})
 	})
 	router.GET("/hello", func(c *gin.Context) {
-		e := c.MustGet("example").(string)
-		c.String(200, e+"\n")
-		c.String(200, "hello world")
+		// e := c.MustGet("example").(string)
+		// c.String(200, e+"\n")
+		// c.String(200, "hello world")
+		name := c.Query("name")
+		name2 := c.DefaultQuery("name", "default name")
+		c.String(http.StatusOK, "get "+name)
+		c.String(http.StatusOK, "get "+name2)
 		// fmt.Println("hello world")
+	})
+
+	router.POST("/world", func(c *gin.Context) {
+		name := c.PostForm("name")
+		c.String(http.StatusOK, "post "+name)
 	})
 	groupStudy(router)
 
