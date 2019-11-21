@@ -1,13 +1,11 @@
 package main
 
 import (
-	// "gin-study/modules"
 	"github.com/gin-gonic/gin"
 	"github.com/kaisa316/gin-study/modules"
 	"log"
 	"net/http"
 	"time"
-	"import_test/math"
 )
 
 func main() {
@@ -24,12 +22,13 @@ func main() {
 		c.String(200, "hello world")
 		// fmt.Println("hello world")
 	})
-	math.Add(1,2)
 	groupStudy(router)
 	router.GET("/query", modules.BindQueryParam)
 	router.GET("/query_bind_struct", modules.BindQueryParam)
 	router.POST("/post_bind_struct", modules.BindPostformParam)
 	router.POST("/post_form", modules.NormalPostformParam)
+	router.POST("params_in_path/:name", modules.ParamsInPath)
+	router.POST("params_in_allpath/*action", modules.ParamsInallPath)
 
 	router.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 
