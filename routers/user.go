@@ -20,16 +20,23 @@ func Register(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
-	reg, _ := regexp.Compile(`[0-9a-zA-Z]{3,}@\w+=\.com$`)
-	//用户名需要时一个邮箱
-	if reg.MatchString(user.Username) == false {
-
-		c.JSON(http.StatusBadRequest, gin.H{
-			"err_msg": "非法的邮箱地址",
-		})
-		return
+	//验证
+	if result := user.validate(c); result != nil {
+		c.JSON(http.StatusBadRequest, result)
 	}
 	c.JSON(http.StatusOK, gin.H{
 		"data": "hello",
 	})
+}
+
+//验证user
+func (u User) validate(c *gin.Context) (errMsg map[string]string) {
+	//用户名需要是一个邮箱
+	reg, _ := regexp.Compile(`[0-9a-zA-Z]{3,}@\w+\.com$`)
+	if reg.MatchString(u.Username) == false {
+		errMsg = map[string]string{
+			"err_msg": "非法的邮箱地址",
+		}
+	}
+	return
 }
