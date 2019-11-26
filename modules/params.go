@@ -6,8 +6,8 @@ import (
 )
 
 type Person struct {
-	Name    string `form:"name"`
-	Address string `form:"address"`
+	Name    string `form:"name" binding:"required"`
+	Address string `form:"address" binding:"required"`
 }
 
 //GET :普通形式获取query中的请求参数
@@ -47,5 +47,19 @@ func NormalPostformParam(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"name":    name,
 		"address": addr,
+	})
+}
+
+func ParamsInPath(c *gin.Context) {
+	name := c.Param("name")
+	c.JSON(http.StatusOK, gin.H{
+		"name": name,
+	})
+}
+
+func ParamsInallPath(c *gin.Context) {
+	action := c.Param("action")
+	c.JSON(http.StatusOK, gin.H{
+		"action": action,
 	})
 }
