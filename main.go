@@ -2,8 +2,8 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/kaisa316/gin-study/modules"
-	"github.com/kaisa316/gin-study/routers"
+	_ "github.com/jinzhu/gorm/dialects/mysql"
+	"github.com/kaisa316/gin-study/controllers"
 	"log"
 	"net/http"
 	"time"
@@ -28,13 +28,15 @@ func main() {
 		// fmt.Println("hello world")
 	})
 	groupStudy(router)
-	router.GET("/query", modules.BindQueryParam)
-	router.GET("/query_bind_struct", modules.BindQueryParam)
-	router.POST("/post_bind_struct", modules.BindPostformParam)
-	router.POST("/post_form", modules.NormalPostformParam)
-	router.POST("/params_in_path/:name", modules.ParamsInPath)
-	router.POST("/params_in_allpath/*action", modules.ParamsInallPath)
-	router.POST("/register", routers.Register)
+	router.GET("/query", controllers.BindQueryParam)
+	router.GET("/query_bind_struct", controllers.BindQueryParam)
+	router.POST("/post_bind_struct", controllers.BindPostformParam)
+	router.POST("/post_form", controllers.NormalPostformParam)
+	router.POST("/params_in_path/:name", controllers.ParamsInPath)
+	router.POST("/params_in_allpath/*action", controllers.ParamsInallPath)
+	router.POST("/register", controllers.Register)
+	router.POST("/user/create_table", controllers.CreateTable)
+	router.POST("/user/query", controllers.QueryUser)
 
 	router.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 
