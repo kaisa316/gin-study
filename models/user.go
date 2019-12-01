@@ -7,11 +7,13 @@ import (
 var db *gorm.DB
 var err error
 
-func connDB() {
+func init() {
 	db, err = gorm.Open("mysql", "root:111111@/gin_study?charset=utf8&parseTime=True&loc=Local")
 	if err != nil {
 		panic("failed to connect database")
 	}
+	db.DB().SetMaxIdleConns(10)
+	db.DB().SetMaxOpenConns(100)
 }
 
 type User struct {
@@ -22,25 +24,21 @@ type User struct {
 
 //创建表结构
 func CreateTable() {
-	connDB()
 	db.AutoMigrate(&User{})
-	defer db.Close()
+	// defer db.Close()
 }
 
 //新增记录
 func AddRecord(u *User) {
-	connDB()
-	defer db.Close()
+	// defer db.Close()
 	db.Create(&u)
 }
 
 //查询根据username
-func InfoByUsername() (r *gorm.DB) {
-	connDB()
-	defer db.Close()
+func UserInfo(userName string) (user User, err error) {
 	u := User{
-		Username: "werwer@qq.com",
+		Username: userName,
 	}
-	r = db.Where(&u).First(&User{})
+	err = db.Where(&u).First(&user).Error //绑定user object,结果会存储在这里
 	return
 }

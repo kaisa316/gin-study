@@ -1,4 +1,4 @@
-package controllers
+package routers
 
 import (
 	"github.com/gin-gonic/gin"
@@ -48,8 +48,14 @@ func Register(c *gin.Context) {
 
 //查询User信息
 func QueryUser(c *gin.Context) {
-	result := models.InfoByUsername()
-	c.JSON(http.StatusOK, result)
+	var user User
+	c.ShouldBind(&user)
+	result, err := models.UserInfo(user.Username)
+	if err != nil {
+		c.JSON(http.StatusOK, "查询错误")
+	} else {
+		c.JSON(http.StatusOK, result)
+	}
 }
 
 //验证user
